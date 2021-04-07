@@ -1,0 +1,12 @@
+crimes_in_boston_vertica:
+  outputs:
+    dev:
+      type: vertica
+      host: 127.0.0.1
+      port: 5433
+      username: dbadmin
+      password:
+      dbname: boston_crimes
+      schema: dbt
+      threads: 4
+  target: dev

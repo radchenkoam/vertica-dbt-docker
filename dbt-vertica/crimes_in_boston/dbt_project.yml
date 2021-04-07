@@ -1,0 +1,72 @@
+name: crimes_in_boston              # The name of a dbt project. Must be letters, digits and underscores only, and cannot start with a digit.
+
+config-version: 2                   # Specify your dbt_project.yml as using the v2 structure.
+version: 0.0.1                      # The version of a dbt project. Note that while this is a required parameter, it is not currently meaningfully used by dbt.
+
+profile: crimes_in_boston_vertica   # The profile your dbt project should use to connect to your data warehouse.
+
+source-paths: ["models"]            # Optionally specify a custom list of directories where <models> and <sources> are located. Default: source-paths: ["models"]
+data-paths: ["data"]                # Optionally specify a custom list of directories where <seed> files are located. Default: data-paths: ["data"]
+test-paths: ["tests"]               # Optionally specify a custom list of directories where <data tests> are located. Default: test-paths: ["test"]
+analysis-paths: ["analysis"]        # Specify a custom list of directories where <analyses> are located.
+# macro-paths: ["macros"]             # Optionally specify a custom list of directories where macros are located. Note that you cannot co-locate models and macros. Default: macro-paths: ["macros"]
+# snapshot-paths: ["snapshots"]       # Optionally specify a custom list of directories where snapshots are located. Note that you cannot co-locate models and snapshots. Default: snapshot-paths: ["snapshots"]
+# docs-paths: ["docs"]                # Optionally specify a custom list of directories where docs blocks are located.
+# asset-paths: ["assets"]             # Optionally specify a custom list of directories to copy to the target directory as part of the docs generate command. This is useful for rendering images in your repository in your project documentation.
+
+target-path: "compiled"             # Optionally specify a custom directory where compiled files. Default: target-path: "target"
+log-path: "dbt_logs"                # Optionally specify a custom directory where dbt will write logs. Default: log-path: "logs"
+modules-path: "dbt_modules"         # Optionally specify a custom directory where <packages> are installed when you run the <dbt deps> command. Default: modules-path: "dbt_modules"
+
+clean-targets: ["compiled", "dbt_logs", "dbt_modules"]  # Optionally specify a custom list of directories to be removed by the <dbt clean> command.
+
+require-dbt-version: ">=0.18.0"
+
+# quoting:                            # Optionally configure whether dbt should quote databases, schemas, and identifiers when:
+#  database: false                   #   - creating relations (tables/views)
+#  schema: false                     #   - resolving a ref function to a direct relation reference
+#  identifier: false                 # The default values vary by database. Leave the default values for your warehouse.
+
+models:
+  # Be sure to namespace your model configs to your project name
+  crimes_in_boston:
+    +database: boston_crimes
+    materialized: table
+      staging:
+        materialized: view
+        tags: ["staging"]
+      marts:
+        materialized: table
+        tags: ["marts"]
+
+seeds:
+  crimes_in_boston:
+    +enabled: true
+    +schema: raw
+    # data/crime.csv
+    crime:
+      # Override column types
+      +column_types:
+        incident_number: varchar
+        offense_code: int
+        offense_code_group: varchar
+        offense_description: varchar
+        district: varchar
+        reporting_area: int
+        shooting: varchar
+        occurred_on_date: timestamp
+        year: int
+        month: int
+        day_of_week: varchar
+        hour: int
+        ucr_part: varchar
+        street: varchar
+        lat: float
+        long: float
+        location: varchar
+    # data/offense_codes.csv
+    offense_codes:
+      # Override column types
+      +column_types:
+        code: int
+        name: varchar

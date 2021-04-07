@@ -1,0 +1,48 @@
+# ! WARNING: This configuration is for local development.
+# ! Do not use it in a production deployment.
+# ! docker-compose version +v1.28
+#
+# This configuration supports basic configuration using environment variables or an .env file
+# The following variables are supported:
+#
+# DBA_USER    - Username for the Vertica database administrator account.
+#               Default: dbadmin
+# DBA_PWD     - Password for the Vertica database administrator account.
+#               Default is empty
+# DB_NAME     - Vertica database name.
+#               Default: test
+#
+# Feel free to modify this file to suit your needs.
+
+version: '3'
+services:
+
+  vertica:
+    build: ./vertica
+    container_name: vertica
+    ports:
+      - 5433:5433
+    env_file:
+      - ./vertica/.env
+    args:
+      - DATABASE_USER=$DBA_USER
+      - DATABASE_PASSWORD=$DBA_PWD
+      - DATABASE_NAME=$DB_NAME
+      - VERTICA_PACKAGE=$VERTICA_PKG
+    healthcheck:
+      test: /opt/vertica/bin/vsql -U dbadmin -c "select 1;"
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    volumes:
+      - ./home/$USER/vertica_data:/vertica/data
+
+  dbt:
+    build: ./dbt-vertica
+    container_name: dbt
+    volumes:
+      - ./home/$USER/.dbt:/dbt-vertica/crimes_in_boston
+
+networks:
+  default:
+    name: dbt-net

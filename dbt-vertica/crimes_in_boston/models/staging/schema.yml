@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: stg_crime
+    columns:
+      - name: incident_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_offense_codes
+    columns:
+      - name: code
+        tests:
+          - unique
+          - not_null
