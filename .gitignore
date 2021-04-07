@@ -1,0 +1,5 @@
+.git
+vertica/data
+vertica/.env
+*.csv
+*.deb

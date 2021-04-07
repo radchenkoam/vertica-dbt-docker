@@ -9,4 +9,4 @@ find /usr/share/man -type f -exec rm -f {} \;
 /bin/rm -rf /var/lib/apt/lists/*
 /bin/rm -f /var/lib/dpkg/info/*
 /bin/rm -f /var/cache/debconf/*
-/bin/rm -rf /tmp/*
+/bin/rm -rf /tmp/* /var/tmp/*

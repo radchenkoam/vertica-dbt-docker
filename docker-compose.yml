@@ -16,32 +16,25 @@
 
 version: '3'
 services:
-
   vertica:
-    build: ./vertica
+    image: radchenkoam/vertica:latest
     container_name: vertica
+    env_file: ./vertica/.env
     ports:
       - 5433:5433
-    env_file:
-      - ./vertica/.env
-    args:
-      - DATABASE_USER=$DBA_USER
-      - DATABASE_PASSWORD=$DBA_PWD
-      - DATABASE_NAME=$DB_NAME
-      - VERTICA_PACKAGE=$VERTICA_PKG
-    healthcheck:
-      test: /opt/vertica/bin/vsql -U dbadmin -c "select 1;"
-      interval: 10s
-      timeout: 10s
-      retries: 10
+#    healthcheck:
+#      test: /opt/vertica/bin/vsql -U dbadmin -c "select 1;"
+#      interval: 10s
+#      timeout: 10s
+#      retries: 10
     volumes:
-      - ./home/$USER/vertica_data:/vertica/data
+      - ./vertica/data:/home/dbadmin/vertica_data
 
-  dbt:
-    build: ./dbt-vertica
-    container_name: dbt
-    volumes:
-      - ./home/$USER/.dbt:/dbt-vertica/crimes_in_boston
+#  dbt:
+#    build: ./dbt-vertica
+#    container_name: dbt
+#    volumes:
+#      - ./home/$USER/.dbt:/dbt-vertica/crimes_in_boston
 
 networks:
   default:
