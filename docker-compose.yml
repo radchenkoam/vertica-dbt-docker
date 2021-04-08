@@ -5,14 +5,16 @@
 # This configuration supports basic configuration using environment variables or an .env file
 # The following variables are supported:
 #
-# DBA_USER    - Username for the Vertica database administrator account.
-#               Default: dbadmin
-# DBA_PWD     - Password for the Vertica database administrator account.
-#               Default is empty
-# DB_NAME     - Vertica database name.
-#               Default: test
+# VERTICA_PACKAGE         - Downloaded Vertica package filename
 #
-# Feel free to modify this file to suit your needs.
+# VERTICA_DATA            - Container location of the Vertica database files
+#
+# VERTICA_DBA_USER        - Username for the Vertica database administrator account
+#                           Default: dbadmin
+# VERTICA_DBA_PASSWORD    - Password for the Vertica database administrator account
+#                           Default is empty
+# VERTICA_DATABASE_NAME   - Vertica database name
+#                           Default: test
 
 version: '3'
 services:
@@ -35,6 +37,8 @@ services:
 #    container_name: dbt
 #    volumes:
 #      - ./home/$USER/.dbt:/dbt-vertica/crimes_in_boston
+#    depends_on:
+#      - vertica
 
 networks:
   default:

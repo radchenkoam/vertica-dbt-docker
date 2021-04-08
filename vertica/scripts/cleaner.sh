@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for FILE in $(ls -1d /usr/share/locale/*|grep -v en);do rm -rf $FILE;done
+for FILE in $(ls -1d /usr/share/locale/* | grep -v en);do rm -rf $FILE;done
 for FILE in $(ls -1R /usr/share/i18n/locales/* | grep -v en_GB | grep -v en_US);do rm -rf $FILE;done
 find /usr/share/doc -type f -exec rm -f {} \;
 find /usr/share/man -type f -exec rm -f {} \;
