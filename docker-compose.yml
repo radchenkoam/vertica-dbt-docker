@@ -1,44 +1,27 @@
 # ! WARNING: This configuration is for local development.
 # ! Do not use it in a production deployment.
 # ! docker-compose version +v1.28
-#
-# This configuration supports basic configuration using environment variables or an .env file
-# The following variables are supported:
-#
-# VERTICA_PACKAGE         - Downloaded Vertica package filename
-#
-# VERTICA_DATA            - Container location of the Vertica database files
-#
-# VERTICA_DBA_USER        - Username for the Vertica database administrator account
-#                           Default: dbadmin
-# VERTICA_DBA_PASSWORD    - Password for the Vertica database administrator account
-#                           Default is empty
-# VERTICA_DATABASE_NAME   - Vertica database name
-#                           Default: test
 
 version: '3'
 services:
+
   vertica:
     image: radchenkoam/vertica:latest
     container_name: vertica
-    env_file: ./vertica/.env
     ports:
       - 5433:5433
-#    healthcheck:
-#      test: /opt/vertica/bin/vsql -U dbadmin -c "select 1;"
-#      interval: 10s
-#      timeout: 10s
-#      retries: 10
     volumes:
       - ./vertica/data:/home/dbadmin/vertica_data
 
-#  dbt:
-#    build: ./dbt-vertica
-#    container_name: dbt
-#    volumes:
-#      - ./home/$USER/.dbt:/dbt-vertica/crimes_in_boston
-#    depends_on:
-#      - vertica
+  dbt:
+    image: radchenkoam/dbt:latest
+    container_name: dbt
+    volumes:
+      - ./dbt/crimes_in_boston:/usr/app
+      - ./dbt/crimes_in_boston/profiles.yml:/root/.dbt/profiles.yml
+    working_dir: /usr/app
+    depends_on:
+      - vertica
 
 networks:
   default:

@@ -1,7 +1,6 @@
 name: crimes_in_boston              # The name of a dbt project. Must be letters, digits and underscores only, and cannot start with a digit.
-
-config-version: 2                   # Specify your dbt_project.yml as using the v2 structure.
 version: 0.0.1                      # The version of a dbt project. Note that while this is a required parameter, it is not currently meaningfully used by dbt.
+config-version: 2                   # Specify your dbt_project.yml as using the v2 structure.
 
 profile: crimes_in_boston_vertica   # The profile your dbt project should use to connect to your data warehouse.
 
@@ -32,20 +31,19 @@ models:
   crimes_in_boston:
     +database: boston_crimes
     materialized: table
-      staging:
-        materialized: view
-        tags: ["staging"]
-      marts:
-        materialized: table
-        tags: ["marts"]
+    staging:
+      materialized: view
+      tags: ["staging"]
+    marts:
+      materialized: table
+      tags: ["marts"]
 
 seeds:
   crimes_in_boston:
     +enabled: true
-    +schema: raw
     # data/crime.csv
     crime:
-      # Override column types
+      +alias: raw_crime
       +column_types:
         incident_number: varchar
         offense_code: int
@@ -66,7 +64,7 @@ seeds:
         location: varchar
     # data/offense_codes.csv
     offense_codes:
-      # Override column types
+      +alias: raw_offense_codes
       +column_types:
         code: int
         name: varchar
