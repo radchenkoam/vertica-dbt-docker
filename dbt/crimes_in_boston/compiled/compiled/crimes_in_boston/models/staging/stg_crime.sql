@@ -16,4 +16,4 @@ select
   lat,
   long,
   location
-from dbt.crime
+from "boston_crimes"."dbt"."crime"

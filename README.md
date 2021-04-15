@@ -2,7 +2,10 @@
 
 $ git clone git@github.com:radchenkoam/vertica-dbt-docker.git
 скачать package vertica в ./vertica/packages | wget
-скачать boston_crimes (make)
+скачать boston_crimes (make)???
+fix_encoding!!!
+./fix_encoding.sh -f /home/am/work/code/vertica-dbt-docker/dbt/crimes_in_boston/data/seeds/offense_codes.csv
+./fix_encoding.sh -f /home/am/work/code/vertica-dbt-docker/dbt/crimes_in_boston/data/seeds/crime.csv
 установить vsql
 
 описать параметры в .env

@@ -1,4 +1,4 @@
 select
   code,
   name as offense_name
-from dbt.offense_codes
+from "boston_crimes"."dbt"."offense_codes"

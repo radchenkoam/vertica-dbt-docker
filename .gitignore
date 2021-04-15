@@ -1,7 +1,9 @@
 .git
-vertica/data
-vertica/.env
-dbt/crimes_in_boston/profiles.yml
-dbt/crimes_in_boston/dbt_logs
 *.csv
 *.deb
+vertica/data
+vertica/.env
+dbt/crimes_in_boston/compiled
+dbt/crimes_in_boston/dbt_logs
+dbt/crimes_in_boston/profiles.yml
+dbt/crimes_in_boston/.user.yml

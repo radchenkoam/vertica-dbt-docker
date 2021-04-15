@@ -16,4 +16,4 @@ select
   lat,
   long,
   location
-from {{ ref('raw_crime') }}
+from {{ ref('crime') }}
