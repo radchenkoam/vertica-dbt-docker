@@ -32,7 +32,7 @@ dbt-build: ## Building a DBT docker-container
 dbt-dev: ## Running a DBT docker-container for dev
 	docker run --rm -it radchenkoam/dbt:latest bash
 
-.PHONY: dbt-run
+.PHONY: dbt-start
 dbt-run: ## Running a DBT docker-container
 	docker run --name dbt --rm -it \
 		--network dbt-net \
@@ -43,6 +43,13 @@ dbt-run: ## Running a DBT docker-container
 .PHONY: dbt-version
 dbt-version: ## Show DBT version in docker-container
 	docker run --rm -it radchenkoam/dbt:latest dbt --version
+
+.PHONY: project-remove
+project-remove: ## Stop docker-containers, remove images & network
+	docker stop dbt
+	docker rm -vf `docker ps -a --filter=ancestor="radchenkoam/vertica" --format "{{.Names}}"`
+	docker rmi radchenkoam/dbt radchenkoam/vertica
+	docker network rm dbt-net
 
 .PHONY: help
 help: ## Show this help message.

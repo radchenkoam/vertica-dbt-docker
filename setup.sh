@@ -12,10 +12,10 @@ sudo sh ./scripts/docker_compose_install.sh
 sudo apt-get -qqy install wget pwgen
 
 create_network() {
-  if [ -n $(docker network ls | grep dbt-net | grep bridge) ]; then
-    docker network remove dbt-net
-    docker network create dbt-net
+  if [ -n "$(docker network ls --filter=name="dbt-net")" ]; then
+    docker network rm dbt-net
   fi
+  docker network create dbt-net
 }
 
 create_directories() {
@@ -47,8 +47,8 @@ create_configs() {
   fi
   sudo touch $DBT_LOCAL_PATH/.env
 
-  echo "DBT_USER="${DBT_USER:-dbt_user} >> $DBT_USER/.env
-  echo "DBT_PROFILES_DIR="${DBT_PROFILES_DIR:/home/$DBT_USER/.dbt} >> $DBT_LOCAL_PATH/.env
+  echo "DBT_USER="${DBT_USER:-dbt_user} >> $DBT_LOCAL_PATH/.env
+  echo "DBT_PROFILES_DIR="${DBT_PROFILES_DIR:-/home/$DBT_USER/.dbt} >> $DBT_LOCAL_PATH/.env
 
   # Create dbt profile
   if [ -e ./dbt/crimes_in_boston/profiles.yml ]; then
@@ -56,7 +56,7 @@ create_configs() {
   fi
   sudo touch ./dbt/crimes_in_boston/profiles.yml
 
-  echo "crimes_in_boston:" >> ./dbt/crimes_in_boston/profiles.yml
+  echo "crimes_in_boston_vertica:" >> ./dbt/crimes_in_boston/profiles.yml
   echo "  outputs:" >> ./dbt/crimes_in_boston/profiles.yml
   echo "    dev:" >> ./dbt/crimes_in_boston/profiles.yml
   echo "      type: vertica" >> ./dbt/crimes_in_boston/profiles.yml
@@ -75,8 +75,6 @@ unpack_seeds() {
     -xvjf $DBT_LOCAL_PATH/crimes_in_boston/pack/crimes-in-boston.tar.bz2
 }
 
-docker_install
-docker_compose_install
 create_network
 create_directories
 create_configs
