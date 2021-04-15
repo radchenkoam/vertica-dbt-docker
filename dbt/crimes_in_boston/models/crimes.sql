@@ -2,28 +2,31 @@ with crime as (
     select * from {{ ref('stg_crime') }}
 ),
 offense_codes as (
-    select * from {{ ref('stg_offense_codes') }}
+    select
+      OFFENSE_CODE,
+      OFFENSE_NAME    
+    from {{ ref('stg_offense_codes') }}
 ),
 final as (
     select
-      crime.incident_id,
-      offense_codes.offense_name,
-      crime.offense_code_group,
-      crime.offense_description,
-      crime.district,
-      crime.reporting_area,
-      crime.shooting,
-      crime.occurred_on_date,
-      crime.year,
-      crime.month,
-      crime.day_of_week,
-      crime.hour,
-      crime.ucr_part,
-      crime.street,
-      crime.lat,
-      crime.long,
-      crime.location
+      crime.INCIDENT_ID,
+      offense_codes.OFFENSE_NAME,
+      crime.OFFENSE_CODE_GROUP,
+      crime.OFFENSE_DESCRIPTION,
+      crime.DISTRICT,
+      crime.REPORTING_AREA,
+      crime.SHOOTING,
+      crime.OCCURRED_ON_DATE,
+      crime.YEAR,
+      crime.MONTH,
+      crime.DAY_OF_WEEK,
+      crime.HOUR,
+      crime.UCR_PART,
+      crime.STREET,
+      crime.Lat,
+      crime.Long,
+      crime.Location
     from crime
-      left join offense_codes using (offense_code)
+      left join offense_codes using (OFFENSE_CODE)
 )
 select * from final

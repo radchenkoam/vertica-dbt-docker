@@ -11,6 +11,7 @@ setup: ## Execute setup-script
 .PHONY: vertica-run
 vertica-run: ## Running a Vertica docker-container
 	docker run --name vertica -d \
+		--network dbt-net \
 		--env-file=./vertica/.env \
 		-p 5433:5433/tcp \
 		-v $(shell pwd)/vertica/data:/home/dbadmin/vertica_data \
@@ -23,6 +24,7 @@ vertica-connect: ## Running a vsql and connect to the Vertica
 .PHONY: dbt-build
 dbt-build: ## Building a DBT docker-container
 	docker build --no-cache -t radchenkoam/dbt \
+		--network dbt-net \
 	  --build-arg DBT_USER=$(DBT_USER) \
 	  --build-arg DBT_PROFILES_DIR=$(DBT_PROFILES_DIR) ./dbt
 
@@ -33,6 +35,7 @@ dbt-dev: ## Running a DBT docker-container for dev
 .PHONY: dbt-run
 dbt-run: ## Running a DBT docker-container
 	docker run --name dbt --rm -it \
+		--network dbt-net \
 		--entrypoint /bin/bash \
 		-v $(shell pwd)/dbt/crimes_in_boston:$(DBT_PROFILES_DIR) \
 	  -t radchenkoam/dbt:latest

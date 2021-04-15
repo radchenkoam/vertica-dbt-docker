@@ -2,27 +2,27 @@
 # ! Do not use it in a production deployment.
 # ! docker-compose version +v1.28
 
-version: '3'
-services:
+#version: '3'
+#services:
 
-  vertica:
-    image: radchenkoam/vertica:latest
-    container_name: vertica
-    ports:
-      - 5433:5433
-    volumes:
-      - ./vertica/data:/home/dbadmin/vertica_data
+#  vertica:
+#    image: radchenkoam/vertica:latest
+#    container_name: vertica
+#    ports:
+#      - 5433:5433
+#    volumes:
+#      - ./vertica/data:/home/dbadmin/vertica_data
 
-  dbt:
-    image: radchenkoam/dbt:latest
-    container_name: dbt
-    volumes:
-      - ./dbt/crimes_in_boston:/usr/app
-      - ./dbt/crimes_in_boston/profiles.yml:/root/.dbt/profiles.yml
-    working_dir: /usr/app
-    depends_on:
-      - vertica
+#  dbt:
+#    image: radchenkoam/dbt:latest
+#    container_name: dbt
+#    volumes:
+#      - ./dbt/crimes_in_boston:/usr/app
+#      - ./dbt/crimes_in_boston/profiles.yml:/root/.dbt/profiles.yml
+#    working_dir: /usr/app
+#    depends_on:
+#      - vertica
 
-networks:
-  default:
-    name: dbt-net
+#networks:
+#  default:
+#    name: dbt-net

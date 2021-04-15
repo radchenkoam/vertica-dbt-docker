@@ -1,4 +1,4 @@
 select
-  code,
-  name as offense_name
+  CODE as OFFENSE_CODE,
+  NAME as OFFENSE_NAME
 from {{ ref('offense_codes') }}
