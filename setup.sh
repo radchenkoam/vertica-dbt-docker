@@ -12,7 +12,7 @@ sudo sh ./scripts/docker_compose_install.sh
 sudo apt-get -qqy install wget pwgen
 
 create_network() {
-  if [ -n "$(docker network ls --filter=name="dbt-net")" ]; then
+  if [ -n "$(docker network ls | grep dbt-net)" ]; then
     docker network rm dbt-net
   fi
   docker network create dbt-net
