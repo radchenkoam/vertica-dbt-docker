@@ -19,7 +19,7 @@
     $ cd vertica-dbt-docker
     $ make setup
     ```
--   запустить контейнер с `Vertica`: `$ make vertica-run`
+-   запустить контейнер с `Vertica`: `$ make vertica-start`
 -   запустить контейнер с `dbt`: `$ make dbt-start`
 -   в терминале контейнера `dbt` загрузить датасет: `$ dbt seed`
 -   развернуть модели: `$ dbt run`

@@ -8,8 +8,8 @@ DBT_PROFILES_DIR := $(shell cat ./dbt/.env | sed -n "s/DBT_PROFILES_DIR=//p")
 setup: ## Execute setup-script
 	sudo ./setup.sh
 
-.PHONY: vertica-run
-vertica-run: ## Running a Vertica docker-container
+.PHONY: vertica-start
+vertica-start: ## Running a Vertica docker-container
 	docker run --name vertica -d \
 		--network dbt-net \
 		--env-file=./vertica/.env \
@@ -33,7 +33,7 @@ dbt-dev: ## Running a DBT docker-container for dev
 	docker run --rm -it radchenkoam/dbt:latest bash
 
 .PHONY: dbt-start
-dbt-run: ## Running a DBT docker-container
+dbt-start: ## Running a DBT docker-container
 	docker run --name dbt --rm -it \
 		--network dbt-net \
 		--entrypoint /bin/bash \
