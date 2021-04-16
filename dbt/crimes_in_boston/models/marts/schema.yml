@@ -3,13 +3,9 @@ version: 2
 models:
   - name: mrt_offense_all_count
     description: "mrt_offense_all_count"
-    columns:
-      - name: offense_name
-        description: "PK"
-        tests:
-          - unique:
-              column_name: offense_name || '-' || offense_code_group
-          - not_null
+    tests:
+      - unique:
+          column_name: "(offense_name || '-' || offense_code_group)"
 
   - name: mrt_offense_by_year_count
     description: "mrt_offense_by_year_count"
@@ -24,4 +20,4 @@ models:
     description: "mrt_offense_by_year_month_count"
     tests:
       - unique:
-          column_name: year || '-' || month
+          column_name: "(year || '-' || month)"

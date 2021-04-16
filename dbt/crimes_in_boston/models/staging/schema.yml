@@ -3,14 +3,14 @@ version: 2
 models:
   - name: stg_crime
     columns:
-      - name: incident_id
+      - name: INCIDENT_ID
         tests:
           - unique
           - not_null
 
   - name: stg_offense_codes
     columns:
-      - name: code
+      - name: OFFENSE_CODE
         tests:
           - unique
           - not_null
